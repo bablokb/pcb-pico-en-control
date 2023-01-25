@@ -1,7 +1,7 @@
 # For PCBs designed using KiCad: http://www.kicad-pcb.org/
 # Format documentation: http://kicad-pcb.org/help/file-formats/
 
-pcb-pico-en-control.kicad/pcb-pico-en-control.xml
+pico-en-control.kicad/pico-en-control.xml
 
 # Temporary files
 *.000
