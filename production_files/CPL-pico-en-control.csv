@@ -1,0 +1,13 @@
+Designator,Val,Package,Mid X,Mid Y,Rotation,Layer
+C1,100nF,C_0402_1005Metric,104.5,-113.3,-90.0,top
+C2,100nF,C_0402_1005Metric,114.0,-107.9,90.0,top
+C3,22pF,C_0402_1005Metric,114.1,-102.3,90.0,top
+D1,D_Schottky,D_SMA,103.35,-104.55,-90.0,top
+R1,100K,R_0402_1005Metric,115.31,-114.1,0.0,top
+R2,10K,R_0402_1005Metric,105.8,-120.45,-90.0,top
+R3,10K,R_0402_1005Metric,110.1,-110.4,-90.0,top
+R4,10K,R_0402_1005Metric,108.0,-110.5,-90.0,top
+R5,10K,R_0402_1005Metric,111.4,-110.4,-90.0,top
+U1,SN74HC74N,SOIC-14_3.9x8.7mm_P1.27mm,109.66,-115.69,0.0,top
+U2,PCF8563T,SOIC-8_3.9x4.9mm_P1.27mm,110.7,-105.09,180.0,top
+Y1,Crystal,Crystal_SMD_3215-2Pin_3.2x1.5mm,111.9,-100.1,180.0,top
