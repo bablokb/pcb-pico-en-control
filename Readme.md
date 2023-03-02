@@ -1,9 +1,10 @@
 Pico EN Control
 ===============
 
-**Note: this is work in progress**
-
 ![](pcb.jpg)
+
+![](pcb-3D-top.png)
+![](pcb-3D-bot.png)
 
 This is a simple circuit to control the enable pin of a Pico to 
 minimize battery usage.
@@ -11,6 +12,7 @@ minimize battery usage.
 Functions:
   * Enable using a button, a RTC or an external signal
   * Disable by pulling a GPIO high from your program
+  * keep time
 
 The target application of this design is a program that runs in
 intervals. After startup the program executes it's tasks, sets
@@ -32,11 +34,33 @@ the flip-flop. A rising edge will toggle the enable pin.
 ![](schematic.png)
 
 
+PCB
+---
+
+PCB design files are in `pico-en-control.kicad`.
+
+![](pcb-layout.png)
+
+Ready to use production files for JLCPCB are in `production_files`.
+
+The design of the breakout allows it to be connected directly on the bottom
+side of the pico. Note that the breakout uses a solderless layout for the
+pins, i.e. it will hold by friction. But don't expect miracles, it may
+or may not work depending on your pins. For production use, you should
+definitely solder the breakout. 
+
+
 Software
 --------
 
 A simple example program implemented in CircuitPython
-is provided in `src/main.py`.
+is provided in `src/main.py`. The software blinks the on-board LED
+for ten seconds, then goes to sleep for 15 seconds. Measured current:
+
+![](current.png)
+
+The program uses the countdown-timer of the rtc, for longer intervals
+(e.g. startup every minute) use the alarm instead.
 
 
 License
