@@ -70,16 +70,9 @@ def set_timer(secs):
 
 # --- main program   ---------------------------------------------------------
 
-# Check for valid datetime and set a valid, but arbitrary value.
-# Configure RTC
-if (hasattr(rtc,"datetime_compromised") and rtc.datetime_compromised or
-    hasattr(rtc,"lost_power") and rtc.lost_power):
-  rtc.datetime = time.struct_time((2023,1,1, 12,0,0, 6,1,-1))
-  
 # disable timer interrupt and clear timer
-rtc_timerA_status    = False
-rtc.timerA_interrupt = False
-rtc.timerA_pulsed    = True
+rtc_timerA_status  = False
+rtc.timerA_pulsed  = True
 
 # Simulate some work by blinking the LED
 active_until = time.monotonic() + ON_TIME
