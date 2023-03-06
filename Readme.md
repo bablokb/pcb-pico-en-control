@@ -54,13 +54,22 @@ Software
 --------
 
 A simple example program implemented in CircuitPython
-is provided in `src/main.py`. The software blinks the on-board LED
-for ten seconds, then goes to sleep for 15 seconds. Measured current:
+is provided in `src/main.py`. The software provides some boilerplate
+code for timer and alarm-based wake up.
+
+In timer-mode, the program uses the countdown-timer of the rtc. It
+blinks the on-board LED for ten seconds, then goes to sleep for 15 seconds.
+
+Measured current:
 
 ![](current-timer.png)
 
-The program uses the countdown-timer of the rtc, for longer intervals
-(e.g. startup every minute) use the alarm instead.
+For longer intervals alarm-based wake up is more suitable. Since the rtc
+does not support seconds for alarms, it will always fire on "full minutes".
+The current measurement demonstrates this behavior (the first off-interval
+is shorter than the following off-intervals):
+
+![](current-alarm.png)
 
 
 License

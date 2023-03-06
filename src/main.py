@@ -1,10 +1,15 @@
 #-----------------------------------------------------------------------------
 # Test program.
 #
-# The program blinks the onboard LED for 10 seconds, then goes to sleep
-# and wakes up again after 15 seconds.
+# The program supports two modes:
 #
-# The program uses the countdown-timer of the RTC and works on a PCF8563 up to
+# timer-mode: blink the onboard LED for 10 seconds, then goe to sleep
+#             and wakes up again after 15 seconds.
+#
+# alarm-mode: blink the onboard LED for 10 seconds, then goe to sleep
+#             and wake up at the start of the next minute
+#
+# The countdown-timer of the RTC and works on a PCF8563 up to
 # 15300 seconds (i.e. 255m or 4h15m). For longer intervals than
 # 255 minutes use the alarm or switch to the PCF8523.
 #
@@ -12,6 +17,8 @@
 #
 # Website: https://github.com/pcb-pico-en-control
 #-----------------------------------------------------------------------------
+
+OFF_MODE_TIMER = 1      # 0: use alarm, 1: use timer
 
 import time
 import board
@@ -30,7 +37,8 @@ PIN_SCL  = board.GP3   # connect to RTC
 
 LED_TIME = 0.5         # blink-duration
 ON_TIME  = 10          # seconds on (blinking)
-OFF_TIME = 15          # seconds off (<= 15300 == 255*60)
+OFF_TIMER = 15         # seconds off (<= 15300 == 255*60)
+OFF_ALARM = 1          # wake up in x minutes
 
 # --- create hardware objects   ----------------------------------------------
 
@@ -68,11 +76,26 @@ def set_timer(secs):
   rtc.timerA_interrupt = True
   rtc.timerA_enabled   = True
 
+# --- set alarm   ------------------------------------------------------------
+
+def set_alarm(minutes):
+  alarm_time = time.mktime(rtc.datetime) + 60*minutes
+  rtc.alarm  = (time.localtime(alarm_time),"daily")
+  rtc.alarm_interrupt = True
+
 # --- main program   ---------------------------------------------------------
 
-# disable timer interrupt and clear timer
-rtc_timerA_status  = False
-rtc.timerA_pulsed  = True
+# disable timer interrupt and clear timer/alarm
+rtc.timerA_status    = False
+rtc.timerA_pulsed    = False
+rtc.timerA_interrupt = False
+rtc.timerA_enabled   = False
+
+rtc.alarm_status     = False
+rtc_alarm_interrupt  = False
+
+if rtc.lost_power:
+  rtc.datetime =time.struct_time((2022,10,3,13,5,12,0,277,-1))
 
 # Simulate some work by blinking the LED
 active_until = time.monotonic() + ON_TIME
@@ -80,8 +103,12 @@ print("working...")
 while time.monotonic() < active_until:
   blink()
 
-# finished working, set timer and exit
-set_timer(OFF_TIME)
+# finished working, set timer or alarm and exit
+if OFF_MODE_TIMER:
+  set_timer(OFF_TIMER)
+else:
+  set_alarm(OFF_ALARM)
+
 done.value = 1 # signal "done" to external circuit - this should turn us off
 time.sleep(0.2)
 done.value = 0
