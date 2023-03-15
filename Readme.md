@@ -3,10 +3,7 @@ Pico EN Control
 
 ![](pcb.jpg)
 
-![](pcb-3D-top.png)
-![](pcb-3D-bot.png)
-
-This is a simple circuit to control the enable pin of a Pico to 
+This is a simple breakout to control the enable pin of a Pico to
 minimize battery usage.
 
 Functions:
@@ -19,6 +16,15 @@ intervals. After startup the program executes it's tasks, sets
 the next wakup time and then pulls the "done"-GPIO high.
 The circuitry then pulls the enable-pin low, thus limiting the
 battery consumption to a very low level.
+
+The design of the breakout allows it to be connected directly on the bottom
+side of the pico. Note that the breakout uses a solderless layout for the
+pins, i.e. it will hold by friction. But don't expect miracles, it may
+or may not work depending on your pins. For production use, you should
+definitely solder the breakout.
+
+![](pcb-3D-top.png)
+![](pcb-3D-bot.png)
 
 
 Hardware Components
@@ -42,12 +48,6 @@ PCB design files are in `pico-en-control.kicad`.
 ![](pcb-layout.png)
 
 Ready to use production files for JLCPCB are in `production_files`.
-
-The design of the breakout allows it to be connected directly on the bottom
-side of the pico. Note that the breakout uses a solderless layout for the
-pins, i.e. it will hold by friction. But don't expect miracles, it may
-or may not work depending on your pins. For production use, you should
-definitely solder the breakout. 
 
 
 Software
