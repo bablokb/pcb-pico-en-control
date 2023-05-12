@@ -27,7 +27,10 @@ from digitalio import DigitalInOut, Direction, Pull
 
 # imports for PCF8563
 import busio
-from adafruit_pcf8563 import PCF8563 as PCF_RTC
+if OFF_MODE_TIMER:
+  from adafruit_pcf8563.timer import Timer as PCF_RTC
+else:
+  from adafruit_pcf8563.pcf8563 import PCF8563 as PCF_RTC
 
 # --- configuration   --------------------------------------------------------
 
@@ -66,15 +69,15 @@ def blink(dur=LED_TIME,repeat=1):
 
 def set_timer(secs):
   if secs < 256:
-    rtc.timerA_frequency = rtc.TIMER_FREQ_1HZ
-    rtc.timerA_value = secs
+    rtc.timer_frequency = rtc.TIMER_FREQ_1HZ
+    rtc.timer_value = secs
   else:
-    rtc.timerA_frequency = rtc.TIMER_FREQ_1_60HZ
-    rtc.timerA_value = min(255,int(secs/60)+1)
+    rtc.timer_frequency = rtc.TIMER_FREQ_1_60HZ
+    rtc.timer_value = min(255,int(secs/60)+1)
   
   # enable timer and interrupt
-  rtc.timerA_interrupt = True
-  rtc.timerA_enabled   = True
+  rtc.timer_interrupt = True
+  rtc.timer_enabled   = True
 
 # --- set alarm   ------------------------------------------------------------
 
@@ -86,16 +89,16 @@ def set_alarm(minutes):
 # --- main program   ---------------------------------------------------------
 
 # disable timer interrupt and clear timer/alarm
-rtc.timerA_status    = False
-rtc.timerA_pulsed    = False
-rtc.timerA_interrupt = False
-rtc.timerA_enabled   = False
-
-rtc.alarm_status     = False
-rtc_alarm_interrupt  = False
-
-if rtc.lost_power:
-  rtc.datetime =time.struct_time((2022,10,3,13,5,12,0,277,-1))
+if OFF_MODE_TIMER:
+  rtc.timer_status    = False
+  rtc.timer_pulsed    = False
+  rtc.timer_interrupt = False
+  rtc.timer_enabled   = False
+else:
+  rtc.alarm_status     = False
+  rtc.alarm_interrupt  = False
+  if rtc.lost_power:
+    rtc.datetime =time.struct_time((2022,10,3,13,5,12,0,277,-1))
 
 # Simulate some work by blinking the LED
 active_until = time.monotonic() + ON_TIME
