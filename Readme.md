@@ -71,7 +71,7 @@ is shorter than the following off-intervals):
 
 ![](current-alarm.png)
 
-Current in off-state is about 80µA:
+Current in off-state is about 75µA (with CLKOUT disabled):
 
 ![](current-power-off.png)
 
