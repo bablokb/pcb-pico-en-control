@@ -71,6 +71,10 @@ is shorter than the following off-intervals):
 
 ![](current-alarm.png)
 
+Current in off-state is about 80µA:
+
+![](current-power-off.png)
+
 
 License
 -------
