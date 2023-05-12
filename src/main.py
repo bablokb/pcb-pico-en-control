@@ -18,7 +18,7 @@
 # Website: https://github.com/pcb-pico-en-control
 #-----------------------------------------------------------------------------
 
-OFF_MODE_TIMER = 1      # 0: use alarm, 1: use timer
+OFF_MODE_TIMER = 0      # 0: use alarm, 1: use timer
 
 import time
 import board
@@ -97,6 +97,7 @@ if OFF_MODE_TIMER:
 else:
   rtc.alarm_status     = False
   rtc.alarm_interrupt  = False
+  rtc.clockout_enabled = False
   if rtc.lost_power:
     rtc.datetime =time.struct_time((2022,10,3,13,5,12,0,277,-1))
 
